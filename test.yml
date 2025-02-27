@@ -1,0 +1,12 @@
+---
+- name: Retrieve /etc/passwd file
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run cat /etc/passwd
+      command: cat /etc/passwd
+      register: passwd_output
+
+    - name: Show the output
+      debug:
+        msg: "{{ passwd_output.stdout }}"
