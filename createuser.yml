@@ -1,0 +1,13 @@
+---
+- name: Create user navid
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure navid user exists
+      user:
+        name: navid
+        comment: "Navid Zolfaghari"
+        password: "{{ 'navid' | password_hash('sha512') }}"
+        home: /home/navid
+        shell: /bin/bash
+        create_home: yes
