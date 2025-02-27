@@ -1,0 +1,10 @@
+---
+- name: Delete user navid and remove home directory
+  hosts: all
+  become: yes
+  tasks:
+    - name: Remove user navid
+      user:
+        name: navid
+        state: absent
+        remove: yes
