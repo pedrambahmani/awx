@@ -1,0 +1,13 @@
+---
+- name: Create user leila on all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure user leila exists
+      user:
+        name: leila
+        comment: "Leila User"
+        password: "{{ 'leila' | password_hash('sha512') }}"
+        home: /home/leila
+        shell: /bin/bash
+        create_home: yes
