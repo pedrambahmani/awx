@@ -1,0 +1,16 @@
+- name: Fetch /etc/hosts from remote machine
+  hosts: all
+  become: true  # Use sudo to read /etc/hosts
+  tasks:
+    - name: Ensure destination directory exists on AWX execution node
+      delegate_to: localhost
+      file:
+        path: "/var/lib/awx/hosts_backup"
+        state: directory
+        mode: "0755"
+
+    - name: Fetch /etc/hosts file
+      fetch:
+        src: /etc/hosts
+        dest: "/var/lib/awx/hosts_backup/{{ inventory_hostname }}-hosts"
+        flat: yes  # Prevents creating nested directories
