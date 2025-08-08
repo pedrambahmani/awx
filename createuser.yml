@@ -1,13 +1,13 @@
 ---
-- name: Create user navid
+- name: Create user pedram
   hosts: all
   become: yes
   tasks:
-    - name: Ensure navid user exists
+    - name: Ensure pedram user exists
       user:
-        name: navid
-        comment: "Navid Zolfaghari"
-        password: "{{ 'navid' | password_hash('sha512') }}"
-        home: /home/navid
+        name: pedram
+        comment: "pedram Zolfaghari"
+        password: "{{ 'pedram' | password_hash('sha512') }}"
+        home: /home/pedram
         shell: /bin/bash
         create_home: yes
