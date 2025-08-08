@@ -1,4 +1,4 @@
-- name: Fetch /etc/hosts from remote machine
+- name: Fetch /etc/passwd from remote machine
   hosts: all
   become: true  # Use sudo to read /etc/hosts
   tasks:
@@ -9,8 +9,8 @@
         state: directory
         mode: "0755"
 
-    - name: Fetch /etc/hosts file
+    - name: Fetch /etc/passwd file
       fetch:
-        src: /etc/hosts
+        src: /etc/passwd
         dest: "/var/lib/awx/hosts_backup/{{ inventory_hostname }}-hosts"
         flat: yes  # Prevents creating nested directories
