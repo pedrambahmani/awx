@@ -1,6 +1,6 @@
 ---
 - name: Create user hamid and setup environment
-  hosts: ubuntu_servers
+  hosts: all
   become: true
   tasks:
 
