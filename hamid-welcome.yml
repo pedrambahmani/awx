@@ -1,0 +1,29 @@
+---
+- name: Create user hamid and setup environment
+  hosts: ubuntu_servers
+  become: true
+  tasks:
+
+    - name: Ensure user hamid exists
+      user:
+        name: hamid
+        comment: "karimnejad"
+        home: /home/hamid
+        shell: /bin/bash
+        create_home: yes
+        password: "{{ 'hamid' | password_hash('sha512') }}"
+
+    - name: Force password change on first login
+      command: chage -d 0 hamid
+
+    - name: Create welcome.txt file for hamid
+      copy:
+        dest: /home/hamid/welcome.txt
+        content: |
+          Welcome hamid
+          Please check the Jira for your first task.
+          Use the same username and password.
+          Jira URL: http://anisajira.com
+        owner: hamid
+        group: hamid
+        mode: '0644'
