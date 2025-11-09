@@ -1,29 +1,29 @@
 ---
-- name: Create user hamid and setup environment
+- name: Create user behrad and setup environment
   hosts: all
   become: true
   tasks:
 
-    - name: Ensure user hamid exists
+    - name: Ensure user behrad exists
       user:
-        name: hamid
-        comment: "karimnejad"
-        home: /home/hamid
+        name: behrad
+        comment: "Sanei"
+        home: /home/behrad
         shell: /bin/bash
         create_home: yes
-        password: "{{ 'hamid' | password_hash('sha512') }}"
+        password: "{{ 'behrad' | password_hash('sha512') }}"
 
     - name: Force password change on first login
-      command: chage -d 0 hamid
+      command: chage -d 0 behrad
 
-    - name: Create welcome.txt file for hamid
+    - name: Create welcome.txt file for behrad
       copy:
-        dest: /home/hamid/welcome.txt
+        dest: /home/behrad/welcome.txt
         content: |
-          Welcome hamid
+          Welcome behrad
           Please check the Jira for your first task.
           Use the same username and password.
           Jira URL: http://anisajira.com
-        owner: hamid
-        group: hamid
+        owner: behrad
+        group: behrad
         mode: '0644'
