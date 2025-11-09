@@ -1,0 +1,26 @@
+---
+- name: Create user and file with Ansible
+  hosts: all          # targets all hosts in your inventory
+  become: yes         # escalate privileges to root
+  vars:
+    username: amirrezza
+    password: "{{ 'amirreza' | password_hash('sha512') }}"  # hashed password
+    file_content: "welcome to ansible amirrezza this is the first code automation and user creation from ansible server via github integration ."
+    file_name: welcome.txt
+
+  tasks:
+    - name: Create the user
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        shell: /bin/bash
+        state: present
+        create_home: yes
+
+    - name: Create a file in user's home directory
+      copy:
+        dest: "/home/{{ username }}/{{ file_name }}"
+        content: "{{ file_content }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0644'
