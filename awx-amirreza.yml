@@ -1,5 +1,5 @@
 ---
-- name: Create user and file with Ansible
+- name: Create user and file with Ansible and create welcome text for Amirreza 
   hosts: all          # targets all hosts in your inventory
   become: yes         # escalate privileges to root
   vars:
