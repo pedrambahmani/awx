@@ -1,10 +1,10 @@
 ---
-- name: Create user and file with Ansible and create welcome text for Amirreza 
+- name: Create user and file with Ansible and create welcome text for moein 
   hosts: all          # targets all hosts in your inventory
   become: yes         # escalate privileges to root
   vars:
-    username: amirrezza
-    password: "{{ 'amirreza' | password_hash('sha512') }}"  # hashed password
+    username: moein
+    password: "{{ 'moein' | password_hash('sha512') }}"  # hashed password
     file_content: "welcome to ansible amirrezza this is the first code automation and user creation from ansible server via github integration ."
     file_name: welcome.txt
 
