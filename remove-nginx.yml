@@ -1,0 +1,23 @@
+---
+- name: Roll back Nginx installation and configuration
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Remove Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: absent
+        purge: true
+        autoremove: true
+        update_cache: false
+
+    - name: Remove Nginx configuration directory
+      ansible.builtin.file:
+        path: /etc/nginx
+        state: absent
+
+    - name: Remove website files created by the previous playbook
+      ansible.builtin.file:
+        path: /var/www/html/index.html
+        state: absent
