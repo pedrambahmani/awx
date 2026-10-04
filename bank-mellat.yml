@@ -1,61 +1,19 @@
 ---
-- name: Deploy NGINX Website with Docker
+- name: Run NGINX Container
   hosts: all
   become: yes
 
-  vars:
-    container_name: nginx-web
-    nginx_image: nginx:latest
-    web_dir: /opt/nginx/html
-
   tasks:
 
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: present
-        update_cache: yes
-
-    - name: Start and enable Docker
-      service:
-        name: docker
-        state: started
-        enabled: yes
-
-    - name: Create NGINX web directory
-      file:
-        path: "{{ web_dir }}"
-        state: directory
-        mode: '0755'
-
-    - name: Create index.html
-      copy:
-        dest: "{{ web_dir }}/index.html"
-        content: |
-          <!DOCTYPE html>
-          <html>
-          <head>
-              <title>Kubernetes Class</title>
-          </head>
-          <body>
-              <h1>Welcome to Kubernetes Class</h1>
-          </body>
-          </html>
-        mode: '0644'
-
-    - name: Remove old NGINX container if exists
+    - name: Run NGINX container
       shell: |
-        docker rm -f {{ container_name }} 2>/dev/null || true
-      changed_when: false
+        docker run -d \
+          --name nginx-web \
+          --restart unless-stopped \
+          -p 80:80 \
+          nginx:latest
 
-    - name: Pull latest NGINX image
-      shell: docker pull {{ nginx_image }}
-
-    - name: Run NGINX Docker container on port 80
-      shell: >
-        docker run -d
-        --name {{ container_name }}
-        --restart unless-stopped
-        -p 80:80
-        -v {{ web_dir }}:/usr/share/nginx/html:ro
-        {{ nginx_image }}
+    - name: Create Welcome page inside container
+      shell: |
+        docker exec nginx-web sh -c \
+        'echo "<h1>Welcome to Kubernetes Class</h1>" > /usr/share/nginx/html/index.html'
